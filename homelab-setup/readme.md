@@ -331,9 +331,9 @@ cybersecurity-homelab/
 │   ├── powershell-detection.spl
 │   └── persistence-detection.spl
 │
-├── attack-simulations/            ← (Coming Soon)
-│   ├── nmap-scan-walkthrough.md
-│   ├── metasploit-reverse-shell.md
+├── attack-simulations/            
+│   ├── reverse_tcp.md         <-  (Go check out)
+│   ├── credential_theft.md       <- (Coming Soon)
 │   └── brute-force-smb.md
 │
 ├── screenshots/                   ← (Coming Soon)
