@@ -35,9 +35,9 @@ Everything here is self-built, self-documented, and continuously evolving. The g
 cybersecurity-homelab/
 │
 ├── 📁 homelab-setup/          →  How the lab is built (VMs, network, Splunk)
-├── 📁 attack-simulations/     →  Step-by-step attack walkthroughs             (coming soon)
+├── 📁 attack-simulations/     →  Step-by-step attack walkthroughs             
 ├── 📁 detection-queries/         →  Detection queries for real attack scenarios  (coming soon)
-└── 📁 screenshots/            →  Visual proof — dashboards and detections      (coming soon)
+
 ```
 
 ---
