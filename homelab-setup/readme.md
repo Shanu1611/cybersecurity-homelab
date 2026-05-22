@@ -44,23 +44,23 @@ The lab is structured around two core disciplines:
  
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                   VirtualBox Host (Windows 10/11)        │
-│                                                          │
+│                   VirtualBox Host (Windows 10/11)       │
+│                                                         │
 │   ┌─────────────────┐        ┌──────────────────────┐   │
-│   │   Kali Linux    │        │  Windows 11 Enterprise│   │
-│   │   (Attacker)    │◄──────►│     (Victim/Target)   │   │
-│   │  10.0.0.5       │        │  10.0.0.10            │   │
-│   │                 │        │  + Splunk UF installed │   │
+│   │   Kali Linux    │        │ Windows 11 Enterprise│   │
+│   │   (Attacker)    │◄──────►│     (Victim/Target)  │   │
+│   │  192.168.20.11  │        │  192.168.20.10       │   │
+│   │                 │        │ + Splunk UF installes│   │
 │   └─────────────────┘        └──────────┬───────────┘   │
-│                                         │                │
+│                                         │               │
 │                              ┌──────────▼───────────┐   │
-│                              │    Splunk (SIEM)      │   │
-│                              │  Log Ingestion &      │   │
-│                              │  Threat Detection     │   │
+│                              │    Splunk (SIEM)     │   │
+│                              │  Log Ingestion &     │   │
+│                              │  Threat Detection    │   │
 │                              └──────────────────────┘   │
-│                                                          │
-│            [ Internal Network: labnet ]                  │
-│         No traffic leaks to external network             │
+│                                                         │
+│            [ Internal Network: labnet ]                 │
+│         No traffic leaks to external network            │
 └─────────────────────────────────────────────────────────┘
 ```
  
@@ -93,7 +93,7 @@ Kali Linux is a Debian-based penetration testing distribution maintained by Offe
 |---|---|
 | Role | Attacker / Red Team |
 | OS | Kali Linux 2024.x (64-bit) |
-| IP Address | `10.0.0.5` |
+| IP Address | `192.168.20.11` |
 | Snapshot | `Clean Snapshot Linux` |
 | RAM | 2–4 GB |
 | Storage | 20–50 GB |
@@ -118,7 +118,7 @@ Windows 11 Enterprise serves as the attack target, configured to mirror a real c
 |---|---|
 | Role | Victim / Blue Team Sensor |
 | OS | Windows 11 Enterprise (64-bit) |
-| IP Address | `10.0.0.10` |
+| IP Address | `192.168.20.10` |
 | Snapshot | `Clean Snapshot` |
 | RAM | 4 GB |
 | Storage | 50–80 GB |
@@ -142,9 +142,9 @@ Both VMs communicate over a **VirtualBox Internal Network**, completely isolated
 |---|---|
 | Network Mode | Internal Network |
 | Network Name | `labnet` |
-| Subnet | `10.0.0.0/24` |
-| Kali IP | `10.0.0.5` |
-| Windows IP | `10.0.0.10` |
+| Subnet | `192.168.0.0/24` |
+| Kali IP | `192.168.20.11` |
+| Windows IP | `192.168.20.10` |
 | Internet Access | ❌ Disabled (fully isolated) |
  
 ### Setup Steps
@@ -159,7 +159,7 @@ Both VMs communicate over a **VirtualBox Internal Network**, completely isolated
  
 **Assigning static IP on Kali Linux:**
 ```bash
-sudo ip addr add 10.0.0.5/24 dev eth0
+sudo ip addr add 192.168.20.11/24 dev eth0
 sudo ip link set eth0 up
 ```
  
@@ -167,7 +167,7 @@ sudo ip link set eth0 up
 ```
 Control Panel → Network Adapter Settings
 → IPv4 → Manual
-→ IP: 10.0.0.10 | Mask: 255.255.255.0
+→ IP: 192.168.20.10 | Mask: 255.255.255.0
 ```
  
 > **Why Internal Network?** Unlike NAT or Bridged modes, Internal Network ensures zero traffic leakage — attacks stay entirely within the virtual environment.
@@ -226,7 +226,7 @@ sysmon64.exe -accepteula -i sysmonconfig.xml
  
 **Attack Simulation (Kali):**
 ```bash
-nmap -sS -p 1-65535 10.0.0.10
+nmap -sS -p 1-65535 192.168.20.10
 ```
  
 **Splunk Detection Query (SPL):**
