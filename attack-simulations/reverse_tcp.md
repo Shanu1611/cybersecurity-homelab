@@ -50,7 +50,7 @@ nmap -A <victim_ip> -Pn
 
 **Finding:** Port **3389 (RDP)** was found open on the victim machine.
 
-![Nmap Open Port Scan](nmap_open_port.png)
+![Nmap Open Port Scan](namp_open_port.png)
 
 **Threat Hunter Note:** An open RDP port is a high-value finding for attackers. It confirms the target is reachable and hints at potential lateral movement or brute-force vectors. Legitimate organizations should never expose RDP directly to untrusted networks.
 
