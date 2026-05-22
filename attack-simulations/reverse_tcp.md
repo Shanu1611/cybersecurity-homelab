@@ -233,7 +233,7 @@ Splunk logged an outbound **network connection event** — the victim machine re
 
 Splunk captured `cmd.exe` being **spawned as a child process** of `appraisal_slip.pdf.exe`. This is the classic process lineage of a reverse shell — a non-browser, non-system binary spawning a command interpreter.
 
-> **MITRE ATT&CK Mapping:** [T1059.003 — Command and Scripting Interpreter: Windows Command Shell](screenshots/https://attack.mitre.org/techniques/T1059/003)
+> **MITRE ATT&CK Mapping:** [T1059.003 — Command and Scripting Interpreter: Windows Command Shell](https://attack.mitre.org/techniques/T1059/003)
 
 ---
 
