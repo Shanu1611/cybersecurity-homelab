@@ -18,7 +18,7 @@ The full attack lifecycle is documented here — from pre-attack setup, executio
 
 | Component | Details |
 |---|---|
-| Victim | Windows 11 Enterprise — `10.0.0.10` |
+| Victim | Windows 11 Enterprise  |
 | Hypervisor | Oracle VirtualBox (Host-Only Network) |
 | Monitoring | Splunk Enterprise + Sysmon + Universal Forwarder |
 | Tool Used | ProcDump64 v11.0 (Sysinternals) |
